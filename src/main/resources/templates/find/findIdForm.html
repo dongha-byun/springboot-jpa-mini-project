@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 330px;
+            padding: 15px;
+        }
+        .field-error {
+            border-color: #dc3435;
+            color: #dc3435;
+        }
+    </style>
+</head>
+<body>
+    <div class="container m-auto w-100">
+        <form th:action th:object="${findIdForm}" method="post">
+
+            <div>
+                <label for="name">이름</label>
+                <input type="text" id="name"
+                       th:field="*{name}" th:errorclass="field-error"
+                       class="form-control">
+                <div class="field-error" th:errors="*{name}">
+                    이름 검증 오류 메시지
+                </div>
+            </div>
+
+            <div>
+                <label for="telNo">연락처</label>
+                <input type="text" id="telNo"
+                       th:field="*{telNo}" th:errorclass="field-error"
+                       class="form-control">
+                <div class="field-error" th:errors="*{telNo}">
+                    연락처 검증 오류 메시지
+                </div>
+            </div>
+
+            <button class="btn btn-primary" type="submit">조회</button>
+        </form>
+    </div>
+</body>
+</html>

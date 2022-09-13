@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>인트로 타이틀</title>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+            padding: 15px;
+        }
+        .field-error {
+            border-color: #dc3435;
+            color: #dc3435;
+        }
+    </style>
+    <link th:href="@{/css/article_write.css}" href="../css/article_write.css" rel="stylesheet">
+</head>
+<body>
+<div class="container article_wrapper">
+    <form th:action th:object="${articleWriteForm}" method="post">
+        <div class="article_header">
+            <div class="board_name">
+                <button type="submit" class="btn btn-primary">등록</button>
+                <button type="button" th:onclick="|location.href='@{/board/list}'|">목록으로</button>
+            </div>
+            <div class="title">
+                <label for="title">제목</label>
+                <input type="text" class="form-control" id="title"
+                       th:field="*{title}" th:errorclass="field-error">
+            </div>
+        </div>
+        <textarea class="content" th:text="${article.content}"></textarea>
+        <div class="attach_file" th:if="${fileList.size() > 0}">
+            <ul>
+                <li th:each="file : ${fileList}">
+                    <a th:text="${file.fileName}" href="#"></a>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.article_wrapper .article_header{
+    margin : 0 auto;
+    padding : 10px;
+    height: 120px;
+}
+
+.article_wrapper .article_header div.board_name{
+    color: #3434ff;
+    font-size: 1.1em;
+}
+
+.article_wrapper .article_header div.title{
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.article_wrapper .article_header div.writer span.user_info{
+    float: left;
+}
+
+.article_wrapper .article_header div.writer span.notice_date{
+    float: right;
+}
+
+.article_wrapper .content{
+    padding: 15px 5px;
+    border: 2px #3434ff solid;
+    min-height: 360px;
+}
+
+.article_wrapper .attach_file{
+    border: 1px #232323 solid;
+}
+
+.article_wrapper .comment_area{
+    border: 1px #556677 solid;
+    text-align: center;
+    width: 100%;
+    padding: 5px;
+}
+

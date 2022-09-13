@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 330px;
+            padding: 15px;
+        }
+        .field-error {
+            border-color: #dc3435;
+            color: #dc3435;
+        }
+    </style>
+</head>
+<body>
+<div class="container m-auto w-100">
+    <form th:action="@{/change/pw}" th:object="${changePwForm}" method="post">
+        <input type="hidden" th:field="*{chkOrgPassword}">
+        <input type="hidden" th:field="*{targetUserId}">
+        <div th:if="${#fields.hasGlobalErrors()}" class="field-error">
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
+        </div>
+        <div>
+            <label for="orgPassword">기존비밀번호</label>
+            <input type="password" id="orgPassword"
+                   th:field="*{orgPassword}" th:errorclass="field-error"
+                   class="form-control">
+            <div class="field-error" th:errors="*{orgPassword}">
+                아이디 검증 오류 메시지
+            </div>
+        </div>
+
+        <div>
+            <label for="chgPassword">변경비밀번호</label>
+            <input type="password" id="chgPassword"
+                   th:field="*{chgPassword}" th:errorclass="field-error"
+                   class="form-control">
+            <div class="field-error" th:errors="*{chgPassword}">
+                변경비밀번호 검증 오류 메시지
+            </div>
+        </div>
+
+        <div>
+            <label for="chgPasswordConfirm">변경비밀번호 확인</label>
+            <input type="password" id="chgPasswordConfirm"
+                   th:field="*{chgPasswordConfirm}" th:errorclass="field-error"
+                   class="form-control">
+            <div class="field-error" th:errors="*{chgPasswordConfirm}">
+                변경비밀번호 확인 검증 오류 메시지
+            </div>
+        </div>
+
+        <button class="btn btn-primary" type="submit">변경</button>
+    </form>
+</div>
+</body>
+</html>

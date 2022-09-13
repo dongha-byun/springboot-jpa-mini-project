@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>인트로 타이틀</title>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+            padding: 15px;
+        }
+    </style>
+    <link th:href="@{/css/article_view.css}" href="../css/article_view.css" rel="stylesheet">
+    <script th:inline="javascript">
+        function deleteArticle(id){
+            var f = document.createElement('form');
+            f.action = '/article/'+id+'/del';
+            f.method = 'post';
+            f.submit();
+        }
+    </script>
+</head>
+<body>
+    <div class="container article_wrapper">
+        <div class="article_header">
+            <div class="board_name">
+                <span th:text="${article.board?.boardName}">게시판 명</span>
+                <button type="button" th:onclick="|location.href='@{/article/{id}/edit(id=${article.id})}';|">수정</button>
+                <button type="button" th:onclick="|deleteArticle('${article.id}');|">삭제</button>
+                <button type="button" th:onclick="|location.href='@{/board/list}'|">목록으로</button>
+            </div>
+            <div class="title">
+                <span th:text="${article.title}">게시글 제목</span>
+            </div>
+            <div class="writer">
+                <span class="user_info" th:text="${article.noticeUser?.name}">게시자</span>
+                <span class="notice_date" th:text="${article.noticeDate}">게시일</span>
+            </div>
+        </div>
+        <div class="content" th:text="${article.content}"></div>
+        <div class="attach_file" th:if="${fileList.size() > 0}">
+            <ul>
+                <li th:each="file : ${fileList}">
+                    <a th:text="${file.fileName}" href="#"></a>
+                </li>
+            </ul>
+        </div>
+        <div class="comment_area">
+            <ul class="comment_list" th:if="${commentList.size() > 0}">
+                <li th:each="comment : ${commentList}" th:text="${comment.content}"></li>
+            </ul>
+            <div class="comment_write">
+                <form th:action="@{/article/{id}/comment/add(id=${article.id})}">
+                    <input type="text" class="comment_input">
+                    <button type="submit">등록</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
