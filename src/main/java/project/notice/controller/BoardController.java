@@ -7,7 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import project.notice.domain.Article;
+import project.notice.domain.Board;
 import project.notice.service.ArticleService;
+import project.notice.service.BoardService;
 
 import java.util.List;
 
@@ -16,15 +18,16 @@ import java.util.List;
 @RequestMapping("/board")
 @RequiredArgsConstructor
 public class BoardController {
-
-    private final ArticleService articleService;
+    private final BoardService boardService;
 
     @GetMapping("/list")
     public String list(Model model){
 
-        List<Article> articleList = articleService.articleListAll();
+        List<Board> boardList = boardService.findBoardAll();
+        List<Article> articleList = boardList.get(0).getArticleList();
 
         model.addAttribute("articleList", articleList);
+        model.addAttribute("boardList", boardList);
 
         return "board/listMain";
     }

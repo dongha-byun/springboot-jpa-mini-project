@@ -51,14 +51,18 @@ public class TestDataInit {
             User user3 = new User("byunsw4", "sorkgkf1!", "변동하", "010-0000-0000", "");
             em.persist(user3);
 
-            Board board = new Board("테스트 게시판 1",  "게시판 설명");
-            em.persist(board);
-            log.info("board id : {}", board.getId());
+            Board board1 = new Board("테스트 게시판 1",  "게시판 설명");
+            em.persist(board1);
+
+            Board board2 = new Board("테스트 게시판 2",  "게시판 설명");
+            em.persist(board2);
 
             String title = "테스트 게시글 ";
             String content = "테스트 게시글 내용 ";
 
             for(int i=1; i<=30; i++){
+                Board board = (i%2==1) ? board1 : board2;
+
                 Article article = new Article(title + i, content + i, i, user, board);
                 em.persist(article);
 
