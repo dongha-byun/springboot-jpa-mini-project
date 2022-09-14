@@ -23,4 +23,9 @@ public class BoardService {
     public List<Board> findBoardAll(){
         return boardRepository.findAll();
     }
+
+    public Board findOne(Long id){
+        return boardRepository.findById(id)
+                .orElse(null);
+    }
 }

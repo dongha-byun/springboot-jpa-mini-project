@@ -25,16 +25,18 @@
         <div class="article_header">
             <div class="board_name">
                 <span th:text="${article.board?.boardName}">게시판 명</span>
-                <button type="button" th:onclick="|location.href='@{/article/{id}/edit(id=${article.id})}';|">수정</button>
-                <button type="button" th:onclick="|deleteArticle('${article.id}');|">삭제</button>
-                <button type="button" th:onclick="|location.href='@{/board/list}'|">목록으로</button>
+                <div style="float: right;">
+                    <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/article/{id}/edit(id=${article.id})}';|">수정</button>
+                    <button type="button" class="btn btn-secondary" th:onclick="|deleteArticle('${article.id}');|">삭제</button>
+                    <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/board/list}'|">목록으로</button>
+                </div>
             </div>
             <div class="title">
                 <span th:text="${article.title}">게시글 제목</span>
             </div>
             <div class="writer">
                 <span class="user_info" th:text="${article.noticeUser?.name}">게시자</span>
-                <span class="notice_date" th:text="${article.noticeDate}">게시일</span>
+                <span class="notice_date" th:text="${#temporals.format(article.noticeDate, 'yyyy-MM-dd HH:mm:ss')}">게시일</span>
             </div>
         </div>
         <div class="content" th:text="${article.content}"></div>

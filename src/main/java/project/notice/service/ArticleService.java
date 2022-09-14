@@ -4,9 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.notice.domain.Article;
+import project.notice.domain.Board;
+import project.notice.domain.User;
+import project.notice.form.article.ArticleWriteForm;
 import project.notice.repository.ArticleRepository;
 import project.notice.repository.jpa.ArticleJpaRepository;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Service
@@ -20,7 +24,8 @@ public class ArticleService {
     }
 
     @Transactional
-    public void saveArticle(Article article){
+    public void saveArticle(ArticleWriteForm articleWriteForm, User user, Board board){
+        Article article = new Article(articleWriteForm.getTitle(), articleWriteForm.getContent(), user, board);
         articleRepository.save(article);
     }
 
