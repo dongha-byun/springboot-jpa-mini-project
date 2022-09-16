@@ -32,7 +32,7 @@ public class Article extends BaseEntity{
 
     @Lob
     private String content;             // 내용
-    @GeneratedValue
+
     private Integer articleNo;          // 글번호
 
     private Integer readCnt;            // 조회수
@@ -53,12 +53,13 @@ public class Article extends BaseEntity{
     @OneToMany(mappedBy = "article")
     private List<File> attachFileList = new ArrayList<>();
 
-    public Article(String title, String content, User noticeUser, Board board) {
+    public Article(String title, String content, Integer articleNo, User noticeUser, Board board) {
         this.title = title;
         this.noticeDate = LocalDateTime.now();
         this.delYn = "N";
         this.content = content;
         this.readCnt = 0;
+        this.articleNo = articleNo;
 
         setNoticeUser(noticeUser);
         setBoard(board);

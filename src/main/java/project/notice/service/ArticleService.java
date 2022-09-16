@@ -7,6 +7,7 @@ import project.notice.domain.Article;
 import project.notice.domain.Board;
 import project.notice.domain.User;
 import project.notice.form.article.ArticleWriteForm;
+import project.notice.manager.ArticleNoCreateManager;
 import project.notice.repository.ArticleRepository;
 import project.notice.repository.jpa.ArticleJpaRepository;
 
@@ -18,6 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ArticleService {
     private final ArticleRepository articleRepository;
+    private final ArticleNoCreateManager articleNoCreateManager;
 
     public List<Article> articleListAll(){
         return articleRepository.findAll();
@@ -25,7 +27,9 @@ public class ArticleService {
 
     @Transactional
     public void saveArticle(ArticleWriteForm articleWriteForm, User user, Board board){
-        Article article = new Article(articleWriteForm.getTitle(), articleWriteForm.getContent(), user, board);
+        Integer articleNo = articleNoCreateManager.getMaxArticleNo(board);
+
+        Article article = new Article(articleWriteForm.getTitle(), articleWriteForm.getContent(), articleNo, user, board);
         articleRepository.save(article);
     }
 

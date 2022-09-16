@@ -2,24 +2,23 @@ package project.notice.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import project.notice.constrants.SessionConstants;
 import project.notice.domain.*;
 import project.notice.form.article.ArticleWriteForm;
-import project.notice.service.ArticleService;
-import project.notice.service.BoardService;
-import project.notice.service.CommentService;
-import project.notice.service.FileService;
+import project.notice.form.user.UserDto;
+import project.notice.manager.FileEncryptManager;
+import project.notice.service.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,23 +29,37 @@ public class ArticleController {
 
     private final ArticleService articleService;
     private final BoardService boardService;
+    private final UserService userService;
+
+    private final FileEncryptManager fileEncryptManager;
+
+    @Value("${file.dir}")
+    public String fileDir;
 
     @GetMapping("/article/write")
-    public String articleWritePage(@ModelAttribute("articleWriteForm") ArticleWriteForm articleWriteForm){
+    public String articleWritePage(@ModelAttribute("articleWriteForm") ArticleWriteForm articleWriteForm,
+                                   Model model){
+
+        List<Board> boardList = boardService.findBoardAll();
+        model.addAttribute("boardList", boardList);
+
         return "article/articleWrite";
     }
 
     @PostMapping("/article/write")
     public String articleWrite(@Validated  @ModelAttribute("articleWriteForm") ArticleWriteForm articleWriteForm,
                                BindingResult bindingResult,
-                               HttpServletRequest request){
+                               @RequestParam MultipartFile file,
+                               HttpServletRequest request) throws IOException{
         if(bindingResult.hasErrors()){
             return "article/articleWrite";
         }
 
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute(SessionConstants.LOGIN_USER);
-        if(user == null){
+        log.info("session : {}",session);
+
+        UserDto userDto = (UserDto) session.getAttribute(SessionConstants.LOGIN_USER);
+        if(userDto == null){
             bindingResult.reject("sessionExpire", "세션 정보가 유효하지 않습니다. 다시 시도해주세요.");
             return "article/articleWrite";
         }
@@ -57,7 +70,24 @@ public class ArticleController {
             return "article/articleWrite";
         }
 
+        log.info("=====================");
+        log.info("request : {}", request);
+        log.info("file : {}", file);
+        log.info("=====================");
+
+        if(!file.isEmpty()){
+
+            String encryptFileName = fileEncryptManager.encryptFileName(file.getOriginalFilename());
+
+            String fullPath = fileDir + encryptFileName; // 파일 디렉토리 경로 + 파일명
+            log.info("fullPath={}", fullPath);
+            file.transferTo(new java.io.File(fullPath)); // 파일 저장
+        }
+
+        User user = userService.getUser(userDto);
         articleService.saveArticle(articleWriteForm, user, board);
+
+
 
         return "redirect:/board/list";
     }

@@ -21,6 +21,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -42,13 +43,13 @@ public class TestDataInit {
 
         @Transactional
         public void init(){
-            User user = new User("testByun", "testByun!", "테스트동하", "010-0000-0000", "");
-            em.persist(user);
+            User user1 = new User("testByun", "testByun!", "테스트동하", "010-0000-0000", "");
+            em.persist(user1);
 
             User user2 = new User("test", "test1!", "테스터", "010-0000-0000", "");
             em.persist(user2);
 
-            User user3 = new User("byunsw4", "sorkgkf1!", "변동하", "010-0000-0000", "");
+            User user3 = new User("byunsw4", "a", "변동하", "010-0000-0000", "");
             em.persist(user3);
 
             Board board1 = new Board("테스트 게시판 1",  "게시판 설명");
@@ -62,11 +63,12 @@ public class TestDataInit {
 
             for(int i=1; i<=30; i++){
                 Board board = (i%2==1) ? board1 : board2;
+                User user = (i%2==1) ? user1 : user2;
 
                 Article article = new Article(title + i, content + i, i, user, board);
                 em.persist(article);
 
-                File file = File.createFile("첨부파일 " + i, "png", "/path/test", article);
+                File file = File.createFile("첨부파일 " + i, UUID.randomUUID().toString(), "png", "/path/test", article);
                 em.persist(file);
 
                 Comment comment = Comment.createComment("댓글 " + i, article, null);

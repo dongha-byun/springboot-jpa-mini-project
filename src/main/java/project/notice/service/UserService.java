@@ -7,6 +7,7 @@ import project.notice.domain.User;
 import project.notice.form.change.ChangePwForm;
 import project.notice.form.find.FindIdForm;
 import project.notice.form.find.FindPwForm;
+import project.notice.form.user.UserDto;
 import project.notice.form.user.UserInsertForm;
 import project.notice.repository.UserRepository;
 
@@ -18,6 +19,11 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+
+    public User getUser(UserDto userDto){
+        return userRepository.findById(userDto.getId())
+                .orElseGet(() -> null);
+    }
 
     public boolean isDuplicateLoginId(String loginId){
         User user = userRepository.findByLoginId(loginId)

@@ -46,6 +46,21 @@ public class User extends BaseEntity{
         this.loginFailCnt = loginFailCnt;
     }
 
+    // == 도메인 생성 메서드 == //
+    public static User createUser(String loginId, String password, String name, String telNo, Grade grade, String nickName, Integer loginFailCnt){
+        User user = new User();
+
+        user.loginId = loginId;
+        user.password = password;
+        user.name = name;
+        user.telNo = telNo;
+        user.grade = grade;
+        user.nickName = nickName;
+        user.loginFailCnt = loginFailCnt;
+
+        return user;
+    }
+
     // == 비지니스 로직 == //
     public void changePassword(String password){
         this.password = password;

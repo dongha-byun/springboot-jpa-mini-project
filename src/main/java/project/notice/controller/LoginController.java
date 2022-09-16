@@ -63,7 +63,7 @@ public class LoginController {
 //            return LOGIN_PAGE;
 //        }
 
-        UserDto userDto = new UserDto(user.getLoginId(), user.getName(), user.getTelNo(), user.getGrade(), user.getNickName());
+        UserDto userDto = new UserDto(user.getId(), user.getLoginId(), user.getName(), user.getTelNo(), user.getGrade(), user.getNickName());
 
         log.info("user info={}", userDto);
 

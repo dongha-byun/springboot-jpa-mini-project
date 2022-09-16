@@ -18,9 +18,10 @@ public class File extends BaseEntity{
     @Column(name = "file_id")
     private Long id;
 
-    private String fileName;    // 파일명
     private String ext;         // 확장자
     private String filePath;    // 파일경로
+    private String realFileName; // 실제 파일명
+    private String storeFileName; // 저장 파일명
 
     // 게시글 정보
     @ManyToOne(fetch = LAZY)
@@ -28,30 +29,20 @@ public class File extends BaseEntity{
     private Article article;
 
     // == 도메인 생성 메서드 == //
-    public static File createFile(String fileName, String ext, String filePath, Article article){
+    public static File createFile(String realFileName, String storeFileName, String ext, String filePath, Article article){
         File file = new File();
-        file.setFileName(fileName);
-        file.setExt(ext);
-        file.setFilePath(filePath);
-        file.setArticle(article);
+
+        file.realFileName = realFileName;
+        file.storeFileName = storeFileName;
+        file.ext = ext;
+        file.filePath = filePath;
+        file.mappedByArticle(article);
 
         return file;
     }
 
-    // == 도메인 생성을 위한 private 생성자 == //
-    private void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    private void setExt(String ext) {
-        this.ext = ext;
-    }
-
-    private void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
-    private void setArticle(Article article) {
+    // == 연관관계 편의 메서드 == //
+    public void mappedByArticle(Article article){
         this.article = article;
     }
 }
