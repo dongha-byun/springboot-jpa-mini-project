@@ -1,6 +1,7 @@
 package project.notice.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.notice.domain.Article;
@@ -14,6 +15,7 @@ import project.notice.repository.jpa.ArticleJpaRepository;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -26,11 +28,24 @@ public class ArticleService {
     }
 
     @Transactional
-    public void saveArticle(ArticleWriteForm articleWriteForm, User user, Board board){
+    public Article saveArticle(ArticleWriteForm articleWriteForm, User user, Board board){
+        Article article = writeFormToArticle(articleWriteForm, user, board);
+        saveArticle(article);
+        return article;
+    }
+
+    @Transactional
+    public void saveArticle(Article article){
+        log.info("article before persist : {}", article.toString());
+        articleRepository.save(article);
+        log.info("article after persist : {}", article.toString());
+    }
+
+    private Article writeFormToArticle(ArticleWriteForm articleWriteForm, User user, Board board) {
         Integer articleNo = articleNoCreateManager.getMaxArticleNo(board);
 
         Article article = new Article(articleWriteForm.getTitle(), articleWriteForm.getContent(), articleNo, user, board);
-        articleRepository.save(article);
+        return article;
     }
 
     public Article getArticle(Long id) {

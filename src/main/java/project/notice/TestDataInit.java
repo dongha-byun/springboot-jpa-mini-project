@@ -68,7 +68,7 @@ public class TestDataInit {
                 Article article = new Article(title + i, content + i, i, user, board);
                 em.persist(article);
 
-                File file = File.createFile("첨부파일 " + i, UUID.randomUUID().toString(), "png", "/path/test", article);
+                AttachFile file = AttachFile.createFile("첨부파일 " + i, UUID.randomUUID().toString(), "png", "/path/test", article);
                 em.persist(file);
 
                 Comment comment = Comment.createComment("댓글 " + i, article, null);

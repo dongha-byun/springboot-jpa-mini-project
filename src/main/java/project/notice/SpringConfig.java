@@ -5,9 +5,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import project.notice.repository.ArticleRepository;
 import project.notice.repository.BoardRepository;
+import project.notice.repository.FileRepository;
 import project.notice.repository.UserRepository;
 import project.notice.repository.jpa.ArticleJpaRepository;
 import project.notice.repository.jpa.BoardJpaRepository;
+import project.notice.repository.jpa.FileJpaRepository;
 import project.notice.repository.jpa.UserJpaRepository;
 
 import javax.persistence.EntityManager;
@@ -20,11 +22,14 @@ public class SpringConfig {
 
     private final EntityManager boardEm;
 
+    private final EntityManager fileEm;
+
     @Autowired
-    public SpringConfig(EntityManager articleEm, EntityManager userEm, EntityManager boardEm) {
+    public SpringConfig(EntityManager articleEm, EntityManager userEm, EntityManager boardEm, EntityManager fileEm) {
         this.articleEm = articleEm;
         this.userEm = userEm;
         this.boardEm = boardEm;
+        this.fileEm = fileEm;
     }
 
     @Bean
@@ -40,5 +45,10 @@ public class SpringConfig {
     @Bean
     public BoardRepository boardRepository(){
         return new BoardJpaRepository(boardEm);
+    }
+
+    @Bean
+    public FileRepository fileRepository(){
+        return new FileJpaRepository(fileEm);
     }
 }

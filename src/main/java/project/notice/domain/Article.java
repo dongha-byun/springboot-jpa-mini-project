@@ -51,7 +51,7 @@ public class Article extends BaseEntity{
     private List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "article")
-    private List<File> attachFileList = new ArrayList<>();
+    private List<AttachFile> attachFileList = new ArrayList<>();
 
     public Article(String title, String content, Integer articleNo, User noticeUser, Board board) {
         this.title = title;
@@ -82,5 +82,19 @@ public class Article extends BaseEntity{
     // == 비지니스 로직 == //
     public void incrementReadCount(){
         this.readCnt++;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", noticeDate=" + noticeDate +
+                ", delYn='" + delYn + '\'' +
+                ", content='" + content + '\'' +
+                ", articleNo=" + articleNo +
+                ", readCnt=" + readCnt +
+                '}';
     }
 }

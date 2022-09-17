@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import project.notice.domain.Article;
 import project.notice.domain.Comment;
+import project.notice.repository.CommentRepository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class CommentJpaRepository implements CommentRepository{
+public class CommentJpaRepository implements CommentRepository {
 
     private final EntityManager em;
 

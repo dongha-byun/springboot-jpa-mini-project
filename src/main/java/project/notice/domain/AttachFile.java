@@ -12,7 +12,7 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Table(name = "T_FILE")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class File extends BaseEntity{
+public class AttachFile extends BaseEntity{
 
     @Id @GeneratedValue
     @Column(name = "file_id")
@@ -29,8 +29,8 @@ public class File extends BaseEntity{
     private Article article;
 
     // == 도메인 생성 메서드 == //
-    public static File createFile(String realFileName, String storeFileName, String ext, String filePath, Article article){
-        File file = new File();
+    public static AttachFile createFile(String realFileName, String storeFileName, String ext, String filePath, Article article){
+        AttachFile file = new AttachFile();
 
         file.realFileName = realFileName;
         file.storeFileName = storeFileName;

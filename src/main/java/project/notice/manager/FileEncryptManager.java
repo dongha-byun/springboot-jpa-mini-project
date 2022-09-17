@@ -10,10 +10,9 @@ import java.util.UUID;
 @Component
 public class FileEncryptManager {
 
-    public String encryptFileName(String plainFileName){
+    public String encryptFileName(String plainFileName, String fileExt){
         log.info("plain file name : {}", plainFileName);
 
-        String fileExt = plainFileName.substring(plainFileName.lastIndexOf("."));
         String encrypt = UUID.randomUUID().toString();
 
         return encrypt+"."+fileExt;

@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import project.notice.constrants.SessionConstants;
 import project.notice.domain.*;
 import project.notice.form.article.ArticleWriteForm;
+import project.notice.form.file.FileSaveForm;
 import project.notice.form.user.UserDto;
 import project.notice.manager.FileEncryptManager;
 import project.notice.service.*;
@@ -30,11 +31,7 @@ public class ArticleController {
     private final ArticleService articleService;
     private final BoardService boardService;
     private final UserService userService;
-
-    private final FileEncryptManager fileEncryptManager;
-
-    @Value("${file.dir}")
-    public String fileDir;
+    private final FileService fileService;
 
     @GetMapping("/article/write")
     public String articleWritePage(@ModelAttribute("articleWriteForm") ArticleWriteForm articleWriteForm,
@@ -75,19 +72,11 @@ public class ArticleController {
         log.info("file : {}", file);
         log.info("=====================");
 
-        if(!file.isEmpty()){
-
-            String encryptFileName = fileEncryptManager.encryptFileName(file.getOriginalFilename());
-
-            String fullPath = fileDir + encryptFileName; // 파일 디렉토리 경로 + 파일명
-            log.info("fullPath={}", fullPath);
-            file.transferTo(new java.io.File(fullPath)); // 파일 저장
-        }
-
         User user = userService.getUser(userDto);
-        articleService.saveArticle(articleWriteForm, user, board);
+        Article article = articleService.saveArticle(articleWriteForm, user, board);
 
-
+        // 파일저장
+        fileService.saveFile(file, article);
 
         return "redirect:/board/list";
     }
@@ -101,7 +90,7 @@ public class ArticleController {
         }
 
         List<Comment> commentList = article.getCommentList();
-        List<File> fileList = article.getAttachFileList();
+        List<AttachFile> fileList = article.getAttachFileList();
 
         model.addAttribute("article", article);
         model.addAttribute("commentList", commentList);

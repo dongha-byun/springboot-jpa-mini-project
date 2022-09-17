@@ -1,4 +1,4 @@
-package project.notice.repository.jpa;
+package project.notice.repository;
 
 import project.notice.domain.Article;
 import project.notice.domain.Comment;
