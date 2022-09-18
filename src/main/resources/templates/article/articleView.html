@@ -52,8 +52,8 @@
                 <li th:each="comment : ${commentList}" th:text="${comment.content}"></li>
             </ul>
             <div class="comment_write">
-                <form th:action="@{/article/{id}/comment/add(id=${article.id})}">
-                    <input type="text" class="comment_input">
+                <form th:action="@{/comment/add/{id}(id=${article.id})}" th:object="${commentSaveForm}" method="post">
+                    <input type="text" class="comment_input" th:field="*{content}">
                     <button type="submit">등록</button>
                 </form>
             </div>

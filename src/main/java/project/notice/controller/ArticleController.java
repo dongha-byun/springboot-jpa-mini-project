@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import project.notice.constrants.SessionConstants;
 import project.notice.domain.*;
 import project.notice.form.article.ArticleWriteForm;
+import project.notice.form.comment.CommentSaveForm;
 import project.notice.form.file.FileSaveForm;
 import project.notice.form.user.UserDto;
 import project.notice.manager.FileEncryptManager;
@@ -95,6 +96,7 @@ public class ArticleController {
         model.addAttribute("article", article);
         model.addAttribute("commentList", commentList);
         model.addAttribute("fileList", fileList);
+        model.addAttribute("commentSaveForm", new CommentSaveForm());
 
         return "article/articleView";
 
