@@ -3,6 +3,9 @@ package project.notice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import project.notice.interceptor.SessionCheckInterceptor;
 import project.notice.repository.ArticleRepository;
 import project.notice.repository.BoardRepository;
 import project.notice.repository.FileRepository;
@@ -15,7 +18,7 @@ import project.notice.repository.jpa.UserJpaRepository;
 import javax.persistence.EntityManager;
 
 @Configuration
-public class SpringConfig {
+public class SpringConfig implements WebMvcConfigurer {
 
     private final EntityManager articleEm;
     private final EntityManager userEm;
@@ -50,5 +53,13 @@ public class SpringConfig {
     @Bean
     public FileRepository fileRepository(){
         return new FileJpaRepository(fileEm);
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new SessionCheckInterceptor())
+                .order(1)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/","/login","/board/list","/css/**", "/*.ico");
     }
 }

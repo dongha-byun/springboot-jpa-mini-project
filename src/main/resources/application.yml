@@ -16,11 +16,11 @@ spring:
   messages:
     basename: messages,errors
 
-logging:
-  level:
-    org.hibernate.SQL: debug
-    org.hibernate.trace: trace
-    org.hibernate.type.descriptor.sql: trace
+#logging:
+#  level:
+    #org.hibernate.SQL: debug
+    #org.hibernate.trace: trace
+    #org.hibernate.type.descriptor.sql: trace
 
 #업로드 경로 설정
 file:

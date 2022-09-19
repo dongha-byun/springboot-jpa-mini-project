@@ -3,6 +3,7 @@ package project.notice.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,12 +35,17 @@ public class LoginController {
 
 
     @GetMapping
-    public String loginForm(@ModelAttribute("loginForm") LoginForm loginForm){
+    public String loginForm(@ModelAttribute("loginForm") LoginForm loginForm,
+                            HttpServletRequest request){
+
+        log.info("LoginController - Get loginForm : {}", request.getParameter("redirectPath"));
+
         return "login/login";
     }
 
     @PostMapping
-    public String login(@Validated @ModelAttribute("loginForm") LoginForm loginForm, BindingResult bindingResult,
+    public String login(@Validated @ModelAttribute("loginForm") LoginForm loginForm,
+                        BindingResult bindingResult,
                         HttpServletRequest request){
 
         log.info("loginForm = {}", loginForm);
@@ -70,6 +76,11 @@ public class LoginController {
         // 로그인 처리
         HttpSession session = request.getSession();
         session.setAttribute(LOGIN_USER, userDto);
+
+        String redirectPath = request.getParameter("redirectPath");
+        if(StringUtils.hasText(redirectPath)){
+            return "redirect:"+redirectPath;
+        }
 
         return "redirect:/board/list";
     }
