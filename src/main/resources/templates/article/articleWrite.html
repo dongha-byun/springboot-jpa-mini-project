@@ -4,27 +4,18 @@
     <title>인트로 타이틀</title>
     <meta charset="UTF-8">
     <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .container {
-            max-width: 560px;
-            padding: 15px;
-        }
-        .field-error {
-            border-color: #dc3435;
-            color: #dc3435;
-        }
-    </style>
     <link th:href="@{/css/article_write.css}" href="../css/article_write.css" rel="stylesheet">
 </head>
 <body>
 <div class="container article_wrapper">
+    <h2 class="text-center">게시글 작성</h2>
     <form th:action th:object="${articleWriteForm}" method="post" enctype="multipart/form-data">
-        <div th:id="${#fields.hasGlobalErrors()}" class="field-error">
+        <div th:if="${#fields.hasGlobalErrors()}" class="field-error">
             <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
         </div>
 
-        <div class="article_header mb-3">
-            <div class="board_name">
+        <div class="article_header mb-3 row">
+            <div class="col">
                 <button type="submit" class="btn btn-primary">등록</button>
                 <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/board/list}'|">목록으로</button>
             </div>
@@ -44,7 +35,8 @@
         </div>
         <div class="mb-3">
             <textarea class="form-control content" th:field="*{content}"
-                    th:errorclass="field-error" placeholder="내용을 입력하세요."></textarea>
+                    th:errorclass="field-error" placeholder="내용을 입력하세요."
+                    rows="10"></textarea>
         </div>
         <div class="mb-3">
             <label>첨부파일</label>

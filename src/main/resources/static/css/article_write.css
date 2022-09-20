@@ -1,0 +1,14 @@
+.article_wrapper{
+    margin-top: 40px;
+}
+.article_wrapper .article_header{
+
+}
+.container {
+    max-width: 560px;
+    padding: 15px;
+}
+.field-error {
+    border-color: #dc3435;
+    color: #dc3435;
+}

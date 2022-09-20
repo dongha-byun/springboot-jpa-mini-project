@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.notice.domain.Board;
 import project.notice.repository.BoardRepository;
-import project.notice.repository.jpa.BoardJpaRepository;
 
 import java.util.List;
 

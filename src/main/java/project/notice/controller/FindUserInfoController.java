@@ -16,6 +16,7 @@ import project.notice.domain.User;
 import project.notice.form.change.ChangePwForm;
 import project.notice.form.find.FindIdForm;
 import project.notice.form.find.FindPwForm;
+import project.notice.manager.DataSecurityManager;
 import project.notice.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 public class FindUserInfoController {
 
     private final UserService userService;
+    private final DataSecurityManager dataSecurityManager;
     private static final String FIND_ID_FORM_PAGE="find/findIdForm";
     private static final String FIND_PW_FORM_PAGE="find/findPwForm";
 
@@ -50,15 +52,13 @@ public class FindUserInfoController {
             bindingResult.reject("userNotFound", "일치하는 사용자 정보가 존재하지 않습니다.");
             return FIND_ID_FORM_PAGE;
         }
-        String loginId = findUser.getLoginId();
-        String subStr = loginId.substring(loginId.length()-3);
-        String masking = StringUtils.replace(loginId, subStr, "***");
+
+        String masking = dataSecurityManager.maskingLoginId(findUser.getLoginId());
 
         model.addAttribute("findLoginId", masking);
         model.addAttribute("username", findUser.getName());
 
-        log.info("findUser loginId : {}", loginId);
-        log.info("subStr : {}", subStr);
+        log.info("findUser loginId : {}", findUser.getLoginId());
         log.info("masking : {}", masking);
 
         return "find/findIdResult"; // 찾기 결과 페이지

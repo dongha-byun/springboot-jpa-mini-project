@@ -13,12 +13,16 @@
             color: #dc3435;
         }
     </style>
+    <link th:href="@{/css/sign_in.css}" href="../css/sign_in.css" rel="stylesheet">
 </head>
 <body>
     <div class="container m-auto w-100">
+        <div class="text-center">
+            <h3>아이디 찾기</h3>
+        </div>
         <form th:action th:object="${findIdForm}" method="post">
 
-            <div>
+            <div class="mb-3">
                 <label for="name">이름</label>
                 <input type="text" id="name"
                        th:field="*{name}" th:errorclass="field-error"
@@ -28,7 +32,7 @@
                 </div>
             </div>
 
-            <div>
+            <div class="mb-3">
                 <label for="telNo">연락처</label>
                 <input type="text" id="telNo"
                        th:field="*{telNo}" th:errorclass="field-error"
@@ -37,8 +41,12 @@
                     연락처 검증 오류 메시지
                 </div>
             </div>
-
-            <button class="btn btn-primary" type="submit">조회</button>
+            <div class="text-center">
+                <button class="btn btn-primary" type="submit">조회</button>
+                <button class="btn btn-secondary" type="button"
+                        onclick="location.href=history.back();"
+                        th:onclick="|location.href='@{/find/id}'|">취소</button>
+            </div>
         </form>
     </div>
 </body>
