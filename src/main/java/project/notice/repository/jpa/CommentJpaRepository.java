@@ -30,13 +30,17 @@ public class CommentJpaRepository implements CommentRepository {
                 .getResultList();
     }
 
-    public List<Comment> findByArticle(Article article){
-        return em.createQuery(
-                "select c " +
-                        "from Comment c " +
-                        "join fetch c.article article " +
-                        "where 1=1 and article.id = :articleId ", Comment.class)
-                .setParameter("articleId", article.getId())
+    @Override
+    public List<Comment> findAllByArticleId(Long articleId) {
+        return em.createQuery("select c from Comment c join fetch c.article a " +
+                        "where 1=1 and a.id = :articleId", Comment.class)
+                .setParameter("articleId", articleId)
                 .getResultList();
     }
+
+    public void flushAndClear(){
+        em.flush();
+        em.clear();
+    }
+
 }

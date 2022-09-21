@@ -8,6 +8,8 @@ import project.notice.domain.Comment;
 import project.notice.form.comment.CommentSaveForm;
 import project.notice.repository.CommentRepository;
 
+import java.util.List;
+
 @Transactional(readOnly = true)
 @Service
 @RequiredArgsConstructor
@@ -24,5 +26,17 @@ public class CommentService {
     public Comment findOne(Long id){
         return commentRepository.findById(id)
                 .orElseGet(() -> null);
+    }
+
+    public List<Comment> listCommentByArticle(Long articleId){
+        return listCommentByArticle(articleId, false);
+    }
+
+    public List<Comment> listCommentByArticle(Long articleId, boolean isClearPersistenceContext){
+        if(isClearPersistenceContext){
+            commentRepository.flushAndClear();
+        }
+        return commentRepository.findAllByArticleId(articleId);
+
     }
 }

@@ -11,4 +11,7 @@ public interface CommentRepository {
     Comment save(Comment comment);
     Optional<Comment> findById(Long id);
     List<Comment> findAll();
+    List<Comment> findAllByArticleId(Long articleId);
+
+    void flushAndClear();
 }

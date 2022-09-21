@@ -11,14 +11,9 @@
         }
     </style>
     <link th:href="@{/css/article_view.css}" href="../css/article_view.css" rel="stylesheet">
-    <script th:inline="javascript">
-        function deleteArticle(id){
-            var f = document.createElement('form');
-            f.action = '/article/'+id+'/del';
-            f.method = 'post';
-            f.submit();
-        }
-    </script>
+    <script type="text/javascript" th:src="@{/webjars/jquery/1.12.0/jquery.min.js}" ></script>
+    <script type="text/javascript" th:src="@{/js/comment.js}" ></script>
+    <script type="text/javascript" th:src="@{/js/view.js}" ></script>
 </head>
 <body>
     <div class="container article_wrapper">
@@ -47,16 +42,16 @@
                 </li>
             </ul>
         </div>
-        <div class="comment_area">
+        <div id="commentList" class="comment_area">
             <ul class="comment_list" th:if="${commentList.size() > 0}">
                 <li th:each="comment : ${commentList}" th:text="${comment.content}"></li>
             </ul>
-            <div class="comment_write">
-                <form th:action="@{/comment/add/{id}(id=${article.id})}" th:object="${commentSaveForm}" method="post">
-                    <input type="text" class="comment_input" th:field="*{content}">
-                    <button type="submit">등록</button>
-                </form>
-            </div>
+        </div>
+        <div class="comment_write">
+            <!--<form th:action="@{/comment/add/{id}(id=${article.id})}" th:object="${commentSaveForm}" method="post">-->
+                <input type="text" class="comment_input" th:field="${commentSaveForm.content}">
+                <button type="button" th:onclick="|addComment('${article.id}');|">등록</button>
+            <!--</form>-->
         </div>
     </div>
 </body>

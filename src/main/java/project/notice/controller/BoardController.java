@@ -33,7 +33,7 @@ public class BoardController {
         model.addAttribute("articleList", articleList);
         model.addAttribute("boardList", boardList);
 
-        return "board/list";
+        return "board/listMain";
     }
 
     @GetMapping("/list/{id}")
@@ -44,6 +44,6 @@ public class BoardController {
         List<Article> articleList = board.getArticleList();
         model.addAttribute("articleList", articleList);
 
-        return "board/list :: #articleListTable";
+        return "board/listMain :: #articleListTable";
     }
 }
