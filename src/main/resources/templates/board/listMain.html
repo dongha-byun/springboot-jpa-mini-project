@@ -17,6 +17,7 @@
 <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 px-md-4 mb-4 border-bottom">
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
         <li>인트로페이지 입니다.</li>
+        <li th:if="${param.isSuccessDelete}">삭제성공시에만 보입니다.</li>
     </ul>
     <div th:if="${session.loginUser == null}" class="col-md-3 text-end">
         <button type="button" class="btn btn-outline-primary me-2" th:onclick="|location.href='@{/login}'|">로그인</button>

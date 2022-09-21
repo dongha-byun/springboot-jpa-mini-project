@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.notice.constrants.SessionConstants;
 import project.notice.domain.*;
 import project.notice.form.article.ArticleWriteForm;
@@ -110,9 +111,14 @@ public class ArticleController {
         return "article/articleEdit";
     }
 
-    @PostMapping("/article/{id}/del")
-    public String deleteArticle(@PathVariable("id") Long id){
+    @PostMapping("/article/{id}/delete")
+    public String deleteArticle(@PathVariable("id") Long id,
+                                RedirectAttributes redirectAttributes){
         log.info("=== article delete ===");
+
+        articleService.deleteArticle(id);
+        redirectAttributes.addFlashAttribute("isSuccessDelete", true);
+
         return "redirect:/board/list";
     }
 

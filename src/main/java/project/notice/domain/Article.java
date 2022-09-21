@@ -47,10 +47,10 @@ public class Article extends BaseEntity{
     @JoinColumn(name = "board_id")
     private Board board;
 
-    @OneToMany(mappedBy = "article")
+    @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE)
     private List<Comment> commentList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "article")
+    @OneToMany(mappedBy = "article", cascade = CascadeType.REMOVE)
     private List<AttachFile> attachFileList = new ArrayList<>();
 
     public Article(String title, String content, Integer articleNo, User noticeUser, Board board) {

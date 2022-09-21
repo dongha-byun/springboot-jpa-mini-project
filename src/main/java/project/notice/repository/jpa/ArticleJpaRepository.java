@@ -43,4 +43,9 @@ public class ArticleJpaRepository implements ArticleRepository {
                 .stream()
                 .findFirst();
     }
+
+    @Override
+    public void delete(Article article) {
+        em.remove(article);
+    }
 }

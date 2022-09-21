@@ -14,6 +14,7 @@ import project.notice.repository.jpa.ArticleJpaRepository;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -51,5 +52,14 @@ public class ArticleService {
     public Article getArticle(Long id) {
         return articleRepository.findByIdWithFetchJoin(id)
                 .orElse(null);
+    }
+
+    @Transactional
+    public void deleteArticle(Long id){
+        Article article = getArticle(id);
+        if(article != null){
+            articleRepository.delete(article);
+        }
+
     }
 }
