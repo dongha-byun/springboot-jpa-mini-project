@@ -86,10 +86,11 @@ public class ArticleController {
     @GetMapping("/article/{id}")
     public String articleView(@PathVariable("id") Long id,
                               Model model){
-        Article article = articleService.getArticle(id);
+        Article article = articleService.readArticle(id);
         if(article == null){
             throw new IllegalStateException("존재하지 않는 게시글 입니다.");
         }
+
 
         List<Comment> commentList = article.getCommentList();
         List<AttachFile> fileList = article.getAttachFileList();
@@ -105,9 +106,16 @@ public class ArticleController {
 
     @GetMapping("/article/{id}/edit")
     public String editArticlePage(@PathVariable("id") Long id,
-                              Model model){
+                                  @ModelAttribute("articleWriteForm") ArticleWriteForm articleWriteForm,
+                                  Model model){
 
         log.info("=== go article edit page == id : {}", id);
+
+        Article article = articleService.getArticle(id);
+        model.addAttribute("article", article);
+
+        articleWriteForm = ArticleWriteForm.convertEntityToForm(article);
+
         return "article/articleEdit";
     }
 

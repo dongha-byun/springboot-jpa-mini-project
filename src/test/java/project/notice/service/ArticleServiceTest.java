@@ -75,4 +75,43 @@ class ArticleServiceTest {
         assertThat(delArticle).isNull();
 
     }
+
+    @Test
+    void 게시글_수정페이지_조회(){
+        // read cnt 올라가면 안됨
+        //given
+        // given
+        User user = new User("testcase1", "test1!", "테스트1", "010-0000-0000", "");
+        Board board = new Board("테스트케이스게시판", "");
+        Article article = new Article("테스트", "내용", 1, user, board);
+
+        em.persist(user);
+        em.persist(board);
+        em.persist(article);
+
+        //when
+        Article findArticle = articleService.getArticle(article.getId());
+
+        //then
+        assertThat(findArticle.getReadCnt()).isEqualTo(0);
+    }
+
+    @Test
+    void 게시글_조회(){
+        // read cnt 증가해야함
+        // given
+        User user = new User("testcase1", "test1!", "테스트1", "010-0000-0000", "");
+        Board board = new Board("테스트케이스게시판", "");
+        Article article = new Article("테스트", "내용", 1, user, board);
+
+        em.persist(user);
+        em.persist(board);
+        em.persist(article);
+
+        //when
+        Article findArticle = articleService.readArticle(article.getId());
+
+        //then
+        assertThat(findArticle.getReadCnt()).isEqualTo(1);
+    }
 }

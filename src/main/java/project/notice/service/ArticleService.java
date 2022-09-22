@@ -37,9 +37,16 @@ public class ArticleService {
 
     @Transactional
     public void saveArticle(Article article){
-        log.info("article before persist : {}", article.toString());
         articleRepository.save(article);
-        log.info("article after persist : {}", article.toString());
+    }
+
+    @Transactional
+    public Article readArticle(Long id){
+        Article article = getArticle(id);
+        if(article!=null){
+            article.incrementReadCount();
+        }
+        return article;
     }
 
     private Article writeFormToArticle(ArticleWriteForm articleWriteForm, User user, Board board) {
@@ -60,6 +67,5 @@ public class ArticleService {
         if(article != null){
             articleRepository.delete(article);
         }
-
     }
 }
