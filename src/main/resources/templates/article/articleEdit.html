@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>인트로 타이틀</title>
+    <meta charset="UTF-8">
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/article_write.css}" href="../css/article_write.css" rel="stylesheet">
+</head>
+<body>
+<div class="container article_wrapper">
+    <h2 class="text-center">게시글 수정</h2>
+    <form th:action th:object="${articleWriteForm}" method="post" enctype="multipart/form-data">
+        <div th:if="${#fields.hasGlobalErrors()}" class="field-error">
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+        </div>
+
+        <div class="article_header mb-3 row">
+            <div class="col">
+                <button type="submit" class="btn btn-primary">등록</button>
+                <button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/board/list}'|">목록으로</button>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="boardId">게시판</label>
+            <select id="boardId" th:field="*{boardId}" class="form-select">
+                <option value="">== 게시판 선택 ==</option>
+                <option th:each="board : ${boardList}" th:value="${board.id}"
+                        th:text="${board.boardName}" th:selected="${board.id == boardId}">BOARD</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="title">제목</label>
+            <input type="text" class="form-control" id="title"
+                   th:field="*{title}" th:errorclass="field-error">
+        </div>
+        <div class="mb-3">
+            <textarea class="form-control content" th:field="*{content}"
+                      th:errorclass="field-error" placeholder="내용을 입력하세요."
+                      rows="10"></textarea>
+        </div>
+        <div class="mb-3">
+            <label>첨부파일</label>
+            <input class="form-control" type="file" name="file">
+        </div>
+    </form>
+</div>
+</body>
+</html>

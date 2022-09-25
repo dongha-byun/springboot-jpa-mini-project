@@ -105,16 +105,17 @@ public class ArticleController {
     }
 
     @GetMapping("/article/{id}/edit")
-    public String editArticlePage(@PathVariable("id") Long id,
-                                  @ModelAttribute("articleWriteForm") ArticleWriteForm articleWriteForm,
-                                  Model model){
+    public String editArticlePage(@PathVariable("id") Long id, Model model){
 
         log.info("=== go article edit page == id : {}", id);
 
         Article article = articleService.getArticle(id);
+        ArticleWriteForm articleWriteForm = ArticleWriteForm.convertEntityToForm(article);
+
+        model.addAttribute("articleWriteForm", articleWriteForm);
         model.addAttribute("article", article);
 
-        articleWriteForm = ArticleWriteForm.convertEntityToForm(article);
+
 
         return "article/articleEdit";
     }
