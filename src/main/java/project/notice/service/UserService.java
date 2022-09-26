@@ -25,6 +25,10 @@ public class UserService {
                 .orElseGet(() -> null);
     }
 
+    public Optional<User> findOne(Long id){
+        return userRepository.findById(id);
+    }
+
     public boolean isDuplicateLoginId(String loginId){
         User user = userRepository.findByLoginId(loginId)
                 .orElseGet(() -> null);

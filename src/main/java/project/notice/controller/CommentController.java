@@ -7,15 +7,15 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
+import project.notice.authorized.AuthorizedUser;
 import project.notice.domain.Article;
 import project.notice.domain.Comment;
+import project.notice.domain.User;
 import project.notice.form.comment.CommentSaveForm;
 import project.notice.service.ArticleService;
 import project.notice.service.CommentService;
+import project.notice.service.UserService;
 
 import java.util.List;
 
@@ -26,12 +26,14 @@ public class CommentController {
 
     private final CommentService commentService;
     private final ArticleService articleService;
+    private final UserService userService;
 
     @PostMapping("/comment/add/{id}")
     public String addComment(@Validated @ModelAttribute("commentSaveForm") CommentSaveForm commentSaveForm,
                              BindingResult bindingResult,
                              @PathVariable("id") Long articleId,
-                             Model model){
+                             Model model,
+                             @RequestAttribute AuthorizedUser authorizedUser){
         if(bindingResult.hasErrors()){
             return "article/ArticleView"; // ??
         }
@@ -42,7 +44,10 @@ public class CommentController {
             parent = commentService.findOne(commentSaveForm.getParentId());
         }
 
-        commentService.saveComment(commentSaveForm, article, parent);
+        User user = userService.findOne(authorizedUser.getId())
+                .orElseThrow(() -> new IllegalArgumentException("인증사용자 조회 불가"));
+
+        commentService.saveComment(commentSaveForm, article, user, parent);
 
         // ajax 호출 시, 비동기 처리를 위해 여기서 list 쿼리 불러야함
         // 동시 등록 가능성을 고려하여 영속성컨텍스트도 비워야해서 true 로 넘김
@@ -55,7 +60,6 @@ public class CommentController {
     @GetMapping("/comment/list/{id}")
     public String listComment(@PathVariable("id") Long articleId,
                               Model model){
-        log.info("list comment article id : {}", articleId);
         List<Comment> commentList = commentService.listCommentByArticle(articleId);
 
         model.addAttribute("commentList", commentList);

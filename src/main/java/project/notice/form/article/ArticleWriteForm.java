@@ -2,6 +2,7 @@ package project.notice.form.article;
 
 import lombok.Data;
 import project.notice.domain.Article;
+import project.notice.domain.Board;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -17,6 +18,8 @@ public class ArticleWriteForm {
 
     @NotNull
     private Long boardId;
+    private Board board;
+
 
     // == 변환 메서드 == //
     public static ArticleWriteForm convertEntityToForm(Article article){

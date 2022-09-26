@@ -68,4 +68,12 @@ public class ArticleService {
             articleRepository.delete(article);
         }
     }
+
+    @Transactional
+    public void editArticle(Long id, ArticleWriteForm form){
+        Article article = articleRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("존재하지 않는 게시글 입니다."));
+
+        article.editArticle(form);
+    }
 }

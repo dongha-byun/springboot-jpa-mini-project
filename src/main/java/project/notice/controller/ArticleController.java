@@ -111,13 +111,33 @@ public class ArticleController {
 
         Article article = articleService.getArticle(id);
         ArticleWriteForm articleWriteForm = ArticleWriteForm.convertEntityToForm(article);
+        List<Board> boardList = boardService.findBoardAll();
 
         model.addAttribute("articleWriteForm", articleWriteForm);
         model.addAttribute("article", article);
-
+        model.addAttribute("boardList", boardList);
 
 
         return "article/articleEdit";
+    }
+
+    @PostMapping("/article/{id}/edit")
+    public String editArticle(@PathVariable("id") Long id,
+                              @Validated @ModelAttribute("articleWriteForm") ArticleWriteForm form,
+                              BindingResult bindingResult,
+                              RedirectAttributes redirectAttributes){
+        if(bindingResult.hasErrors()){
+            return "article/articleEdit";
+        }
+
+        // 게시글 수정 로직 추가
+        // service 에 위임해서 변경감지 활용
+        form.setBoard(boardService.findOne(form.getBoardId()));
+        articleService.editArticle(id, form);
+
+        redirectAttributes.addAttribute("id", id);
+
+        return "redirect:/article/{id}";
     }
 
     @PostMapping("/article/{id}/delete")

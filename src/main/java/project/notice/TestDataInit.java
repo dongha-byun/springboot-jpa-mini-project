@@ -71,7 +71,7 @@ public class TestDataInit {
                 AttachFile file = AttachFile.createFile("첨부파일 " + i, UUID.randomUUID().toString(), "png", "/path/test", article);
                 em.persist(file);
 
-                Comment comment = Comment.createComment("댓글 " + i, article, null);
+                Comment comment = Comment.createComment("댓글 " + i, article, user,null);
                 em.persist(comment);
             }
         }

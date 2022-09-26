@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+import project.notice.form.article.ArticleWriteForm;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -84,6 +85,11 @@ public class Article extends BaseEntity{
         this.readCnt++;
     }
 
+    public void editArticle(ArticleWriteForm form){
+        this.content = form.getContent();
+        this.title = form.getTitle();
+        this.setBoard(form.getBoard());
+    }
 
     @Override
     public String toString() {

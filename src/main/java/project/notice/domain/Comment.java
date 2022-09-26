@@ -35,12 +35,18 @@ public class Comment extends BaseEntity{
     @JoinColumn(name = "article_id")
     private Article article;
 
+    // 작성자 정보
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name="user_id")
+    private User writeUser;
+
     // == 도메인 생성 메서드 == //
-    public static Comment createComment(String content, Article article, Comment parent){
+    public static Comment createComment(String content, Article article, User writeUser, Comment parent){
         Comment comment = new Comment();
 
         comment.content = content;
         comment.writeDate = LocalDateTime.now();
+        comment.writeUser = writeUser;
 
         comment.setArticle(article);
         if(parent != null){

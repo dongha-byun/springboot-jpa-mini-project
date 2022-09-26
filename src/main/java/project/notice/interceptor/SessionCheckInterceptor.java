@@ -3,7 +3,9 @@ package project.notice.interceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import project.notice.authorized.AuthorizedUser;
 import project.notice.constrants.SessionConstants;
+import project.notice.form.user.UserDto;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +32,10 @@ public class SessionCheckInterceptor implements HandlerInterceptor {
             response.sendRedirect("/login?redirectPath=" + requestURI);
             return false;
         }
+
+        UserDto userDto = (UserDto) session.getAttribute(SessionConstants.LOGIN_USER);
+        AuthorizedUser user = new AuthorizedUser(userDto.getId(), userDto.getName(), userDto.getNickName());
+        request.setAttribute("authorizedUser", user);
 
         return true;
     }

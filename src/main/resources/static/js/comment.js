@@ -9,7 +9,7 @@ function addComment(articleId){
         data : param,
     })
     .done(function(fragment){
-        console.log(fragment);
+        $("#content").val("");
         $("#commentList").replaceWith(fragment);
     });
 }

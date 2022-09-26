@@ -34,7 +34,7 @@
                 <span class="notice_date" th:text="${#temporals.format(article.noticeDate, 'yyyy-MM-dd HH:mm:ss')}">게시일</span>
             </div>
         </div>
-        <div class="content" th:text="${article.content}"></div>
+        <div class="content" th:utext="${article.content}"></div>
         <div class="attach_file" th:if="${fileList.size() > 0}">
             <ul>
                 <li th:each="file : ${fileList}">
@@ -42,17 +42,66 @@
                 </li>
             </ul>
         </div>
-        <div id="commentList" class="comment_area">
+        <section class="mb-5">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <div class="text-center">
+                        <input type="text" class="comment_input form-control w-75" th:field="${commentSaveForm.content}">
+                        <button type="button" class="btn btn-primary" th:onclick="|addComment('${article.id}');|">등록</button>
+                    </div>
+                    <!--<div class="d-flex mb-4">
+                        <div class="flex-shrink-0">
+                            <img class="rounded-circle" src="" alert="profile">
+                        </div>
+                        <div class="ms-3">
+                            <div class="fw-bold">Commenter Name 1</div>
+                            코멘트 내용!!!
+                            &lt;!&ndash; 대댓글 1 &ndash;&gt;
+                            <div class="d-flex mt-4">
+                                <div class="flex-shrink-0">
+                                    <img class="rounded-circle" src="">
+                                </div>
+                                <div class="ms-3">
+                                    <div class="fw-bold">Commenter Name 1-1</div>
+                                    코멘트 내용!!! 의 대댓글1111 !!!
+                                </div>
+                            </div>
+                            &lt;!&ndash; 대댓글 2 &ndash;&gt;
+                            <div class="d-flex mt-4">
+                                <div class="flex-shrink-0">
+                                    <img class="rounded-circle" src="">
+                                </div>
+                                <div class="ms-3">
+                                    <div class="fw-bold">Commenter Name 1-2</div>
+                                    코멘트 내용!!! 의 대댓글2222 !!!
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>-->
+                    <div id="commentList">
+                        <div class="d-flex"  th:each="comment : ${commentList}">
+                            <div class="flex-shrink-0">
+                                <img class="rounded-circle" src="" >
+                            </div>
+                            <div class="ms-3">
+                                <div class="fw-bold" th:text="${comment.writeUser.name}">Commenter Name 2</div>
+                                <span th:text="${comment.content}">댓글 내용</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--<div id="commentList" class="comment_area">
             <ul class="comment_list" th:if="${commentList.size() > 0}">
                 <li th:each="comment : ${commentList}" th:text="${comment.content}"></li>
             </ul>
         </div>
         <div class="comment_write">
-            <!--<form th:action="@{/comment/add/{id}(id=${article.id})}" th:object="${commentSaveForm}" method="post">-->
-                <input type="text" class="comment_input" th:field="${commentSaveForm.content}">
-                <button type="button" th:onclick="|addComment('${article.id}');|">등록</button>
-            <!--</form>-->
-        </div>
+
+            <button type="button" th:onclick="|addComment('${article.id}');|">등록</button>
+        </div>-->
     </div>
 </body>
 </html>
