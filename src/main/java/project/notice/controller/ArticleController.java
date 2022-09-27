@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import project.notice.authorized.AuthorizedUser;
 import project.notice.constrants.SessionConstants;
 import project.notice.domain.*;
 import project.notice.form.article.ArticleWriteForm;
@@ -49,16 +50,12 @@ public class ArticleController {
     public String articleWrite(@Validated  @ModelAttribute("articleWriteForm") ArticleWriteForm articleWriteForm,
                                BindingResult bindingResult,
                                @RequestParam MultipartFile file,
-                               HttpServletRequest request) throws IOException{
+                               @RequestAttribute AuthorizedUser authorizedUser) throws IOException{
         if(bindingResult.hasErrors()){
             return "article/articleWrite";
         }
 
-        HttpSession session = request.getSession();
-        log.info("session : {}",session);
-
-        UserDto userDto = (UserDto) session.getAttribute(SessionConstants.LOGIN_USER);
-        if(userDto == null){
+        if(authorizedUser == null){
             bindingResult.reject("sessionExpire", "세션 정보가 유효하지 않습니다. 다시 시도해주세요.");
             return "article/articleWrite";
         }
@@ -69,12 +66,9 @@ public class ArticleController {
             return "article/articleWrite";
         }
 
-        log.info("=====================");
-        log.info("request : {}", request);
-        log.info("file : {}", file);
-        log.info("=====================");
-
-        User user = userService.getUser(userDto);
+        User user = userService.findOne(authorizedUser.getId()).orElseThrow(
+                () -> new IllegalArgumentException("사용자 인증 실패")
+        );
         Article article = articleService.saveArticle(articleWriteForm, user, board);
 
         // 파일저장

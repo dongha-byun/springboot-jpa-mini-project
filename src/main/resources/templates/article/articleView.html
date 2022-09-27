@@ -45,9 +45,13 @@
         <section class="mb-5">
             <div class="card bg-light">
                 <div class="card-body">
-                    <div class="text-center">
-                        <input type="text" class="comment_input form-control w-75" th:field="${commentSaveForm.content}">
-                        <button type="button" class="btn btn-primary" th:onclick="|addComment('${article.id}');|">등록</button>
+                    <div class="text-center mb-3 row">
+                        <div class="d-inline col-xxl-11">
+                            <input type="text" class="comment_input form-control w-100" th:field="${commentSaveForm.content}">
+                        </div>
+                        <div class="d-inline col-xxl-1">
+                            <button type="button" class="btn btn-primary" th:onclick="|addComment('${article.id}');|">등록</button>
+                        </div>
                     </div>
                     <!--<div class="d-flex mb-4">
                         <div class="flex-shrink-0">
