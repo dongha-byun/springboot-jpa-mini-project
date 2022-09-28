@@ -60,7 +60,7 @@ public class SpringConfig implements WebMvcConfigurer {
         registry.addInterceptor(new SessionCheckInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/","/login","/logout","/board/list/**",
+                .excludePathPatterns("/","/login","/logout","/board/list/**","/user/add",
                         "/css/**", "/*.ico","/js/**","/webjars/**",
                         "/find/**", "/error");
     }

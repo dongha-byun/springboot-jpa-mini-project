@@ -49,7 +49,7 @@ public class TestDataInit {
             User user2 = new User("test", "test1!", "테스터", "010-0000-0000", "");
             em.persist(user2);
 
-            User user3 = new User("byunsw4", "a", "변동하", "010-0000-0000", "");
+            User user3 = new User("byunsw4", "a", "변동하", "010-0000-0000", "덩라");
             em.persist(user3);
 
             Board board1 = new Board("테스트 게시판 1",  "게시판 설명");
