@@ -70,4 +70,8 @@ public class User extends BaseEntity{
     public void initLoginFailCnt(){
         this.loginFailCnt = 0;
     }
+
+    public void increaseLoginFailCnt(){
+        this.loginFailCnt++;
+    }
 }

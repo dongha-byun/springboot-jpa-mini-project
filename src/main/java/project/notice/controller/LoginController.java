@@ -58,6 +58,8 @@ public class LoginController {
 
         // 기타 복합 validation 처리
         // ex. id, password 검증 등
+        // 얘를 바꿔야 로그인아이디에 대한 패스워드 실패 횟수를 처리할 수 있을거같음
+        // 일단 loginid 기준으로 user를 뽑아놓고, pw를 비교해서 틀리면 조회된 user의 loginfailcnt를 증가시켜야할 것으로 보임
         User user = loginService.login(loginForm.getLoginId(), loginForm.getPassword());
         if(user == null){
             //bindingResult.reject("loginIdNotFound", "존재하지 않는 아이디 입니다.");

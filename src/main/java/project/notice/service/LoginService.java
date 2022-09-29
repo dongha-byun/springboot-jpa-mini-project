@@ -14,8 +14,14 @@ public class LoginService {
     private final UserRepository userRepository;
 
     public User login(String loginId, String password){
-        return userRepository.findByLoginId(loginId)
-                .filter(user -> user.getPassword().equals(password))
-                .orElse(null);
+        User user = userRepository.findByLoginId(loginId)
+                .orElseThrow(
+                        () -> new IllegalArgumentException("사용자 조회 실패")
+                );
+        if(!password.equals(user.getPassword())){
+            user.increaseLoginFailCnt();
+            return null;
+        }
+        return user;
     }
 }
