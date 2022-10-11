@@ -52,7 +52,7 @@ public class ArticleService {
     private Article writeFormToArticle(ArticleWriteForm articleWriteForm, User user, Board board) {
         Integer articleNo = articleNoCreateManager.getMaxArticleNo(board);
 
-        Article article = new Article(articleWriteForm.getTitle(), articleWriteForm.getContent(), articleNo, user, board);
+        Article article = new Article(articleWriteForm.getTitle(), articleWriteForm.getContent(), articleNo, user, board, articleWriteForm.getNickNameYn());
         return article;
     }
 

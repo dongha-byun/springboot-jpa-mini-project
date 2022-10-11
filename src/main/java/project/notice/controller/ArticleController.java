@@ -31,6 +31,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ArticleController {
 
+    private static final String ARTICLE_WRITE_PAGE = "article/articleWrite";
+
     private final ArticleService articleService;
     private final BoardService boardService;
     private final UserService userService;
@@ -43,7 +45,7 @@ public class ArticleController {
         List<Board> boardList = boardService.findBoardAll();
         model.addAttribute("boardList", boardList);
 
-        return "article/articleWrite";
+        return ARTICLE_WRITE_PAGE;
     }
 
     @PostMapping("/article/write")
@@ -52,18 +54,18 @@ public class ArticleController {
                                @RequestParam MultipartFile file,
                                @RequestAttribute AuthorizedUser authorizedUser) throws IOException{
         if(bindingResult.hasErrors()){
-            return "article/articleWrite";
+            return ARTICLE_WRITE_PAGE;
         }
 
         if(authorizedUser == null){
             bindingResult.reject("sessionExpire", "세션 정보가 유효하지 않습니다. 다시 시도해주세요.");
-            return "article/articleWrite";
+            return ARTICLE_WRITE_PAGE;
         }
 
         Board board = boardService.findOne(articleWriteForm.getBoardId());
         if(board == null){
             bindingResult.reject("noAuthBoard", "작성 권한이 없는 게시판에 작성이 불가합니다.");
-            return "article/articleWrite";
+            return ARTICLE_WRITE_PAGE;
         }
 
         User user = userService.findOne(authorizedUser.getId()).orElseThrow(

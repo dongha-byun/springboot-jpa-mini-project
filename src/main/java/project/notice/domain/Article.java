@@ -38,6 +38,8 @@ public class Article extends BaseEntity{
 
     private Integer readCnt;            // 조회수
 
+    private String nickNameYn;          // 게시자 정보 닉네임 처리 여부
+
     // 게시자 정보
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
@@ -55,12 +57,17 @@ public class Article extends BaseEntity{
     private List<AttachFile> attachFileList = new ArrayList<>();
 
     public Article(String title, String content, Integer articleNo, User noticeUser, Board board) {
+        this(title, content, articleNo, noticeUser, board, "N");
+    }
+
+    public Article(String title, String content, Integer articleNo, User noticeUser, Board board, String nickNameUseYn) {
         this.title = title;
         this.noticeDate = LocalDateTime.now();
         this.delYn = "N";
         this.content = content;
         this.readCnt = 0;
         this.articleNo = articleNo;
+        this.nickNameYn = nickNameUseYn;
 
         setNoticeUser(noticeUser);
         setBoard(board);

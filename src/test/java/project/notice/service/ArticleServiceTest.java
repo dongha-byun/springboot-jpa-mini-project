@@ -29,17 +29,23 @@ class ArticleServiceTest {
     @Autowired
     ArticleService articleService;
 
-    @Test
-    void 게시글_저장_테스트_댓글_게시판_까지(){
-        User user = new User("testcase1", "test1!", "테스트1", "010-0000-0000", "");
-        Board board = new Board("테스트케이스게시판", "");
-        Article article = new Article("테스트", "내용", 1, user, board);
+    User user;
+    Board board;
+    Article article;
+
+    @BeforeEach
+    void beforeEach(){
+        user = new User("testcase1", "test1!", "테스트1", "010-0000-0000", "");
+        board = new Board("테스트케이스게시판", "");
+        article = new Article("테스트", "내용", 1, user, board);
 
         em.persist(user);
         em.persist(board);
         em.persist(article);
+    }
 
-
+    @Test
+    void 게시글_저장_테스트_댓글_게시판_까지(){
         Comment comment = Comment.createComment("댓글 1", article, user,null);
         em.persist(comment);
 
@@ -55,14 +61,7 @@ class ArticleServiceTest {
 
     @Test
     void 게시글_삭제(){
-        // given
-        User user = new User("testcase1", "test1!", "테스트1", "010-0000-0000", "");
-        Board board = new Board("테스트케이스게시판", "");
-        Article article = new Article("테스트", "내용", 1, user, board);
-
-        em.persist(user);
-        em.persist(board);
-        em.persist(article);
+        // given - beforeEach 처리
 
         // when
         articleService.deleteArticle(article.getId());
@@ -79,15 +78,7 @@ class ArticleServiceTest {
     @Test
     void 게시글_수정페이지_조회(){
         // read cnt 올라가면 안됨
-        //given
-        // given
-        User user = new User("testcase1", "test1!", "테스트1", "010-0000-0000", "");
-        Board board = new Board("테스트케이스게시판", "");
-        Article article = new Article("테스트", "내용", 1, user, board);
-
-        em.persist(user);
-        em.persist(board);
-        em.persist(article);
+        // given - beforeEach 처리
 
         //when
         Article findArticle = articleService.getArticle(article.getId());
@@ -99,19 +90,23 @@ class ArticleServiceTest {
     @Test
     void 게시글_조회(){
         // read cnt 증가해야함
-        // given
-        User user = new User("testcase1", "test1!", "테스트1", "010-0000-0000", "");
-        Board board = new Board("테스트케이스게시판", "");
-        Article article = new Article("테스트", "내용", 1, user, board);
-
-        em.persist(user);
-        em.persist(board);
-        em.persist(article);
+        // given - beforeEach 처리
 
         //when
         Article findArticle = articleService.readArticle(article.getId());
 
         //then
         assertThat(findArticle.getReadCnt()).isEqualTo(1);
+    }
+
+    @Test
+    void 게시글_저장_닉네임으로(){
+
+        Article articleByNickName = new Article("테스트", "내용", 1, user, board, "Y");
+        em.persist(articleByNickName);
+
+        Article findArticleByNickName = em.find(Article.class, articleByNickName.getId());
+
+        assertThat(findArticleByNickName.getNickNameYn()).isEqualTo("Y");
     }
 }

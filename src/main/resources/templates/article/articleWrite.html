@@ -29,6 +29,14 @@
             </select>
         </div>
         <div class="mb-3">
+            <div>작성자 정보</div>
+            <select th:field="*{nickNameYn}" class="form-select">
+                <option value="">== 작성자 정보 선택 ==</option>
+                <option th:value="N" th:text="${#request.getAttribute('authorizedUser').name}">사용자 이름</option>
+                <option th:value="Y" th:text="${#request.getAttribute('authorizedUser').nickName}">닉네임</option>
+            </select>
+        </div>
+        <div class="mb-3">
             <label for="title">제목</label>
             <input type="text" class="form-control" id="title"
                    th:field="*{title}" th:errorclass="field-error">

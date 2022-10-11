@@ -20,6 +20,9 @@ public class ArticleWriteForm {
     private Long boardId;
     private Board board;
 
+    @NotBlank
+    private String nickNameYn;
+
 
     // == 변환 메서드 == //
     public static ArticleWriteForm convertEntityToForm(Article article){
@@ -28,6 +31,7 @@ public class ArticleWriteForm {
         articleWriteForm.title = article.getTitle();
         articleWriteForm.content = article.getContent();
         articleWriteForm.boardId = article.getBoard().getId();
+        articleWriteForm.nickNameYn = article.getNickNameYn();
 
         return articleWriteForm;
     }

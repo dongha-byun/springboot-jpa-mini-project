@@ -82,7 +82,10 @@
                                 게시글 제목
                             </a>
                         </td>
-                        <td th:text="${article.noticeUser?.name}">게시자</td>
+                        <td>
+                            <span th:if="${article.nickNameYn == 'N'}" th:text="${article.noticeUser?.name}">게시자 이름</span>
+                            <span th:if="${article.nickNameYn == 'Y'}" th:text="${article.noticeUser?.nickName}">게시자 닉네임</span>
+                        </td>
                         <td th:text="${#temporals.format(article.noticeDate,'yyyy-MM-dd HH:mm:ss')}">게시일</td>
                         <td th:text="${article.readCnt}">조회수</td>
                     </tr>
