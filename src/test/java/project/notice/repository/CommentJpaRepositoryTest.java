@@ -44,7 +44,7 @@ class CommentJpaRepositoryTest {
         boardJpaRepository.save(board);
         articleRepository.save(article);
 
-        Comment comment = Comment.createComment("댓글 입니다.", article, null);
+        Comment comment = Comment.createComment("댓글 입니다.", article, writer,null);
 
         // when
         Comment saveComment = commentJpaRepository.save(comment);
@@ -69,10 +69,10 @@ class CommentJpaRepositoryTest {
         articleRepository.save(article1);
         articleRepository.save(article2);
 
-        Comment comment1 = Comment.createComment("댓글 입니다.1", article1, null);
-        Comment comment2 = Comment.createComment("댓글 입니다.2", article1, comment1);
-        Comment comment3 = Comment.createComment("댓글 입니다.3", article2, null);
-        Comment comment4 = Comment.createComment("댓글 입니다.4", article2, comment3);
+        Comment comment1 = Comment.createComment("댓글 입니다.1", article1, writer,null);
+        Comment comment2 = Comment.createComment("댓글 입니다.2", article1, writer,comment1);
+        Comment comment3 = Comment.createComment("댓글 입니다.3", article2, writer,null);
+        Comment comment4 = Comment.createComment("댓글 입니다.4", article2, writer,comment3);
 
         commentJpaRepository.save(comment1);
         commentJpaRepository.save(comment2);

@@ -40,7 +40,7 @@ class ArticleServiceTest {
         em.persist(article);
 
 
-        Comment comment = Comment.createComment("댓글 1", article, null);
+        Comment comment = Comment.createComment("댓글 1", article, user,null);
         em.persist(comment);
 
         em.flush();
