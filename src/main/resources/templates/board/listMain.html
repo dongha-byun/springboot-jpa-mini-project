@@ -8,26 +8,43 @@
         .btn-write{
             --bs-btn-padding-x : 3.75rem !important;
         }
+        .dropdown-toggle {
+            outline: 0;
+        }
     </style>
     <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/jquery/1.12.0/jquery.min.js}" ></script>
     <script type="text/javascript" th:src="@{/js/list.js}" ></script>
 </head>
 <body>
-<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 px-md-4 mb-4 border-bottom">
-    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li>인트로페이지 입니다.</li>
-        <li th:if="${param.isSuccessDelete}">삭제성공시에만 보입니다.</li>
-    </ul>
-    <div th:if="${session.loginUser == null}" class="col-md-3 text-end">
-        <button type="button" class="btn btn-outline-primary me-2" th:onclick="|location.href='@{/login}'|">로그인</button>
-        <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/user/add}'|">회원가입</button>
-    </div>
-    <div th:unless="${session.loginUser == null}" class="col-md-3 text-end">
-        <span th:text="|${session.loginUser.name}님, 환영합니다!|">로그인 사용자 이름</span>
-        <button type="button" class="btn btn-outline-primary" th:onclick="|location.href='@{/myPage}'|">마이페이지</button>
-        <button type="button" class="btn btn-outline-primary" th:onclick="|location.href='@{/changePassword}'|">비밀번호 변경</button>
-        <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/logout}'|">로그아웃</button>
+<header class="p-3 mb-3 border-bottom">
+    <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
+            </a>
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                <li>인트로페이지 입니다.</li>
+                <li th:if="${param.isSuccessDelete}">삭제성공시에만 보입니다.</li>
+            </ul>
+            <div th:if="${session.loginUser == null}" class="col-md-3 text-end">
+                <button type="button" class="btn btn-outline-primary me-2" th:onclick="|location.href='@{/login}'|">로그인</button>
+                <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/user/add}'|">회원가입</button>
+            </div>
+            <div th:unless="${session.loginUser == null}" class="dropdown text-end">
+                <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                </a>
+                <ul class="dropdown-menu text-small">
+<!--                        <li th:text="|${session.loginUser.name}님, 환영합니다!|">로그인 사용자 이름</li>-->
+                    <li><a class="dropdown-item" th:href="@{/myPage}">마이페이지</a></li>
+                    <li><a class="dropdown-item" th:href="@{/changePassword}">비밀번호 변경</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" th:href="@{/logout}">로그아웃</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 </header>
 <div class="container-fluid">
