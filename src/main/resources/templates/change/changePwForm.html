@@ -16,7 +16,7 @@
 </head>
 <body>
 <div class="container m-auto w-100">
-    <form th:action="@{/change/pw}" th:object="${changePwForm}" method="post">
+    <form th:action th:object="${changePwForm}" method="post">
         <input type="hidden" th:field="*{chkOrgPassword}">
         <input type="hidden" th:field="*{targetUserId}">
         <div th:if="${#fields.hasGlobalErrors()}" class="field-error">

@@ -5,18 +5,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import project.notice.authorized.AuthorizedUser;
 import project.notice.domain.User;
 import project.notice.form.change.ChangePwForm;
 import project.notice.service.UserService;
 
 @Controller
 @Slf4j
-@RequestMapping("/change/pw")
 @RequiredArgsConstructor
 public class ChangePwController {
 
@@ -24,13 +21,13 @@ public class ChangePwController {
 
     private static final String CHANGE_PW_FORM_PAGE = "change/changePwForm";
 
-    @GetMapping
-    public String changePwForm(@ModelAttribute("changePwForm") ChangePwForm changePwForm){
-        return "change/changePwForm";
+    @GetMapping("/change/pw")
+    public String changePwFormNoSession(@ModelAttribute("changePwForm") ChangePwForm changePwForm){
+        return CHANGE_PW_FORM_PAGE;
     }
 
-    @PostMapping
-    public String changePw(@Validated @ModelAttribute("changePwForm") ChangePwForm changePwForm,
+    @PostMapping("/change/pw")
+    public String changePwNoSession(@Validated @ModelAttribute("changePwForm") ChangePwForm changePwForm,
                            BindingResult bindingResult,
                            RedirectAttributes redirectAttributes){
         log.info("changePwForm : {}", changePwForm);
@@ -55,4 +52,36 @@ public class ChangePwController {
 
         return "redirect:/login";
     }
+
+    @GetMapping("/changePassword")
+    public String viewChangePasswordBySession(@ModelAttribute("changePwForm") ChangePwForm changePwForm,
+                                              @RequestAttribute AuthorizedUser authorizedUser){
+        User user = userService.findOne(authorizedUser.getId())
+                .orElseThrow(() -> new IllegalArgumentException("사용자 조회 실패"));
+
+        changePwForm.setTargetUserId(user.getId());
+        changePwForm.setChkOrgPassword(user.getPassword());
+
+        return CHANGE_PW_FORM_PAGE;
+    }
+
+    @PostMapping("/changePassword")
+    public String changePasswordBySession(@ModelAttribute("changePwForm") ChangePwForm changePwForm,
+                                          BindingResult bindingResult,
+                                          @RequestAttribute AuthorizedUser authorizedUser){
+
+        if(bindingResult.hasErrors()){
+            return CHANGE_PW_FORM_PAGE;
+        }
+
+        if(!changePwForm.getTargetUserId().equals(authorizedUser.getId())){
+            bindingResult.reject("NoAuthorizedUser", "사용자 정보가 만료되었습니다.");
+            return CHANGE_PW_FORM_PAGE;
+        }
+
+        userService.changeUserPassword(changePwForm);
+
+        return "redirect:/";
+    }
+
 }
