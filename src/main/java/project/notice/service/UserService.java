@@ -8,6 +8,7 @@ import project.notice.form.change.ChangePwForm;
 import project.notice.form.find.FindIdForm;
 import project.notice.form.find.FindPwForm;
 import project.notice.form.user.UserDto;
+import project.notice.form.user.UserEditForm;
 import project.notice.form.user.UserInsertForm;
 import project.notice.repository.UserRepository;
 
@@ -61,4 +62,11 @@ public class UserService {
         }
     }
 
+    @Transactional
+    public void update(long l, UserEditForm editForm) {
+        User user = userRepository.findById(l)
+                .orElseThrow();
+
+        user.editByMyPage(editForm);
+    }
 }

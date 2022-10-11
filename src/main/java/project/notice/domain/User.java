@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.w3c.dom.stylesheets.LinkStyle;
+import project.notice.form.user.UserEditForm;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -73,5 +74,10 @@ public class User extends BaseEntity{
 
     public void increaseLoginFailCnt(){
         this.loginFailCnt++;
+    }
+
+    public void editByMyPage(UserEditForm form){
+        this.nickName = form.getNickName();
+        this.telNo = form.getTelNo();
     }
 }

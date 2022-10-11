@@ -25,6 +25,7 @@
     </div>
     <div th:unless="${session.loginUser == null}" class="col-md-3 text-end">
         <span th:text="|${session.loginUser.name}님, 환영합니다!|">로그인 사용자 이름</span>
+        <button type="button" class="btn btn-outline-primary" th:onclick="|location.href='@{/myPage}'|">마이페이지</button>
         <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/logout}'|">로그아웃</button>
     </div>
 </header>
