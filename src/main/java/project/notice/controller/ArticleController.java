@@ -2,7 +2,6 @@ package project.notice.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,19 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import project.notice.authorized.AuthorizedUser;
-import project.notice.constrants.SessionConstants;
 import project.notice.domain.*;
+import project.notice.dto.pop.CommonPopInfo;
 import project.notice.form.article.ArticleWriteForm;
 import project.notice.form.comment.CommentSaveForm;
-import project.notice.form.file.FileSaveForm;
-import project.notice.form.user.UserDto;
-import project.notice.manager.FileEncryptManager;
 import project.notice.service.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -138,13 +131,15 @@ public class ArticleController {
 
     @PostMapping("/article/{id}/delete")
     public String deleteArticle(@PathVariable("id") Long id,
-                                RedirectAttributes redirectAttributes){
+                                Model model){
         log.info("=== article delete ===");
 
         articleService.deleteArticle(id);
-        redirectAttributes.addFlashAttribute("isSuccessDelete", true);
 
-        return "redirect:/board/list";
+        CommonPopInfo commonPopInfo = new CommonPopInfo("성공적으로 삭제되었습니다.", "/board/list");
+        model.addAttribute(CommonPopInfo.MODEL_NAME, commonPopInfo);
+
+        return CommonPopInfo.POP_PAGE;
     }
 
 

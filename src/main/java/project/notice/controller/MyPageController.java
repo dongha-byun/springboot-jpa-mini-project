@@ -49,7 +49,7 @@ public class MyPageController {
         userService.update(authorizedUser.getId(), editForm);
 
         CommonPopInfo commonPopInfo = new CommonPopInfo("수정이 완료되었습니다.", "/board/list");
-        model.addAttribute("popInfo", commonPopInfo);
-        return "popup/commonAlert";
+        model.addAttribute(CommonPopInfo.MODEL_NAME, commonPopInfo);
+        return CommonPopInfo.POP_PAGE;
     }
 }
