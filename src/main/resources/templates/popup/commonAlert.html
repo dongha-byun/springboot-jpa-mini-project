@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script th:inline="javascript">
+    window.onload=function(){
+        alert([[${popInfo.message}]]);
+        top.location.href=[[${popInfo.linkUrl}]];
+    }
+    </script>
+</head>
+<body>
+</body>
+</html>
