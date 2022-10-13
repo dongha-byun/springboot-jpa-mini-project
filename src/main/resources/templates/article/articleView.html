@@ -39,7 +39,7 @@
         <div class="attach_file" th:if="${fileList.size() > 0}">
             <ul>
                 <li th:each="file : ${fileList}">
-                    <a th:text="${file.realFileName}" href="#"></a>
+                    <a th:text="${file.realFileName}" th:href="|/attach/${file.id}|" href="#"></a>
                 </li>
             </ul>
         </div>

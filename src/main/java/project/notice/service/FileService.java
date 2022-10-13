@@ -58,4 +58,13 @@ public class FileService {
             saveFile(attachFile);
         }
     }
+
+    public AttachFile findOne(Long id){
+        return fileRepository.findById(id)
+                .orElseThrow(() -> new IllegalStateException("파일이 존재하지 않습니다."));
+    }
+
+    public String getFileFullPath(String fileName){
+        return fileDir + fileName;
+    }
 }
