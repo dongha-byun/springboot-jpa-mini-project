@@ -1,4 +1,4 @@
-package project.notice.form.user;
+package project.notice.dto.user;
 
 import lombok.Data;
 import lombok.Getter;

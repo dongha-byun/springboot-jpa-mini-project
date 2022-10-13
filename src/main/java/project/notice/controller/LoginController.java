@@ -10,17 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import project.notice.constrants.SessionConstants;
 import project.notice.domain.User;
 import project.notice.form.login.LoginForm;
-import project.notice.form.user.UserDto;
+import project.notice.dto.user.UserDto;
 import project.notice.service.LoginService;
-import project.notice.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpUtils;
-import java.util.UUID;
 
 import static project.notice.constrants.SessionConstants.*;
 

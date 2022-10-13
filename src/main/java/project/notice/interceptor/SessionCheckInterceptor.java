@@ -5,7 +5,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import project.notice.authorized.AuthorizedUser;
 import project.notice.constrants.SessionConstants;
-import project.notice.form.user.UserDto;
+import project.notice.dto.user.UserDto;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
