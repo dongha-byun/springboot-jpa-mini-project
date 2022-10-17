@@ -80,4 +80,8 @@ public class User extends BaseEntity{
         this.nickName = form.getNickName();
         this.telNo = form.getTelNo();
     }
+
+    public void updateGradeByAdmin(Grade grade){
+        this.grade = grade;
+    }
 }

@@ -12,7 +12,9 @@ import project.notice.form.user.UserEditForm;
 import project.notice.form.user.UserInsertForm;
 import project.notice.repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -68,5 +70,11 @@ public class UserService {
                 .orElseThrow();
 
         user.editByMyPage(editForm);
+    }
+
+    public List<UserDto> findAllUserDto(){
+        return userRepository.findAll().stream()
+                .map(user -> new UserDto(user.getId(), user.getLoginId(), user.getName(), user.getTelNo(), user.getGrade(), user.getNickName()))
+                .collect(Collectors.toList());
     }
 }

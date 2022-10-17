@@ -43,13 +43,13 @@ public class TestDataInit {
 
         @Transactional
         public void init(){
-            User user1 = new User("testByun", "testByun!", "테스트동하", "010-0000-0000", "");
+            User user1 = new User("testByun", "testByun!", "테스트동하", "010-0000-0000", Grade.LEVEL1, "", 0);
             em.persist(user1);
 
             User user2 = new User("test", "test1!", "테스터", "010-0000-0000", "");
             em.persist(user2);
 
-            User user3 = new User("byunsw4", "a", "변동하", "010-0000-0000", "덩라");
+            User user3 = new User("byunsw4", "a", "변동하", "010-0000-0000", Grade.ADMIN,"덩라", 0);
             em.persist(user3);
 
             Board board1 = new Board("테스트 게시판 1",  "게시판 설명");
