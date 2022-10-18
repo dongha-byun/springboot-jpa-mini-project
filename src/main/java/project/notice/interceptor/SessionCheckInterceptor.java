@@ -34,7 +34,7 @@ public class SessionCheckInterceptor implements HandlerInterceptor {
         }
 
         UserDto userDto = (UserDto) session.getAttribute(SessionConstants.LOGIN_USER);
-        AuthorizedUser user = new AuthorizedUser(userDto.getId(), userDto.getName(), userDto.getNickName());
+        AuthorizedUser user = new AuthorizedUser(userDto.getId(), userDto.getName(), userDto.getNickName(), userDto.getGrade());
         request.setAttribute("authorizedUser", user);
 
         return true;

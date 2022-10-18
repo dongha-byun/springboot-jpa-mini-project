@@ -26,7 +26,6 @@
             </a>
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li>인트로페이지 입니다.</li>
-                <li th:if="${param.isSuccessDelete}">삭제성공시에만 보입니다.</li>
             </ul>
             <div th:if="${session.loginUser == null}" class="col-md-3 text-end">
                 <button type="button" class="btn btn-outline-primary me-2" th:onclick="|location.href='@{/login}'|">로그인</button>
@@ -40,6 +39,7 @@
 <!--                        <li th:text="|${session.loginUser.name}님, 환영합니다!|">로그인 사용자 이름</li>-->
                     <li><a class="dropdown-item" th:href="@{/myPage}">마이페이지</a></li>
                     <li><a class="dropdown-item" th:href="@{/changePassword}">비밀번호 변경</a></li>
+                    <li><a class="dropdown-item" th:if="${session.loginUser.grade == T(project.notice.domain.Grade).ADMIN}" th:href="@{/admin}">관리자 메뉴</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" th:href="@{/logout}">로그아웃</a></li>
                 </ul>

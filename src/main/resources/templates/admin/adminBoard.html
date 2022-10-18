@@ -5,19 +5,17 @@
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">제목</th>
-            <th scope="col">게시자</th>
-            <th scope="col">게시일자</th>
-            <th scope="col">조회수</th>
+            <th scope="col">게시판명</th>
+            <th scope="col">설명</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>게시판정보</td>
-            <td>게시글 제목</td>
-            <td>게시자 이름</td>
-            <td>게시일</td>
-            <td>조회수</td>
+        <tr th:each="board : ${allBoardDto}" class="h-auto align-middle">
+            <td th:text="${board.id}">게시판 아이디</td>
+            <td>
+                <a th:text="${board.name}" th:href="@{/admin/board/{id}(id=${board.id})}" href="#">게시판 명</a>
+            </td>
+            <td th:text="${board.description}">설명</td>
         </tr>
         </tbody>
     </table>

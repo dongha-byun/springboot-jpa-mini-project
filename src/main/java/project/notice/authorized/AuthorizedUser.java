@@ -3,6 +3,7 @@ package project.notice.authorized;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import project.notice.domain.Grade;
 
 @Getter
 @Setter
@@ -13,12 +14,15 @@ public class AuthorizedUser {
     private String name;
     private String nickName;
 
+    private Grade grade;
+
     public AuthorizedUser() {
     }
 
-    public AuthorizedUser(Long id, String name, String nickName) {
+    public AuthorizedUser(Long id, String name, String nickName, Grade grade) {
         this.id = id;
         this.name = name;
         this.nickName = nickName;
+        this.grade = grade;
     }
 }
