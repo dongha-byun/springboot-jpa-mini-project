@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import project.notice.domain.User;
+import project.notice.dto.user.UserDto;
 import project.notice.form.user.UserEditForm;
+
+import javax.persistence.EntityManager;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -15,6 +19,9 @@ public class UserServiceTest {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    EntityManager em;
 
     @Test
     void 사용자_정보_조회_테스트(){
@@ -45,4 +52,16 @@ public class UserServiceTest {
         assertThat(user.getNickName()).isEqualTo("동하닉네임");
         assertThat(user.getTelNo()).isEqualTo("011-1111-2222");
     }
+
+    @Test
+    @Transactional
+    void 모든_사용자_dto_조회_테스트(){
+
+        List<UserDto> users = userService.findAllUserDto();
+        List<User> userList = em.createQuery("select u from User u", User.class)
+                .getResultList();
+
+        assertThat(users.size()).isEqualTo(userList.size());
+    }
+
 }
